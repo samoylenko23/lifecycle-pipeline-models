@@ -172,3 +172,7 @@ cython_debug/
 
 # Another cache
 cache/
+
+.env
+.cache
+.csv

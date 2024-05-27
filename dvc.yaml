@@ -1,0 +1,42 @@
+stages:
+    get_data:
+        cmd: python scripts/data.py
+        deps:
+            - scripts/data.py
+        outs:
+            - data/datasets.csv
+            
+    fit_model:
+        cmd: python scripts/fit.py
+        deps:
+            - scripts/fit.py
+            - data/datasets.csv
+        params:
+            - test_size
+            - random_state
+            - ohe_drop
+            - remainder
+            - verbose_feature_names_out
+            - max_depth
+            - n_estimators
+        outs:
+            - models/fitted_model.pkl
+    
+    evaluate:
+        cmd: python scripts/evaluate.py
+        deps:
+            - scripts/evaluate.py
+            - data/datasets.csv
+            - models/fitted_model.pkl
+        params:
+            - test_size
+            - random_state
+            - n_splits
+            - n_jobs
+        outs:
+            - cv_results/cv_res.json
+            
+            
+            
+            
+
