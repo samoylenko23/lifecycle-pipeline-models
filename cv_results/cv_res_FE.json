@@ -1,0 +1,1 @@
+{"cv_neg_root_mean_squared_error": -0.0, "cv_r2": 1.0, "cv_neg_mean_absolute_error": -0.0, "fit_time": 3.867, "score_time": 0.015, "test_rmse": 0.0, "test_r2": 1.0, "test_mae": 0.0, "model": "FE_model"}

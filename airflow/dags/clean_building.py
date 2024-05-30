@@ -36,7 +36,9 @@ def clean_building_datasets():
                 metadata,
                 Column('id', Integer, primary_key=True, autoincrement=True),
                 Column('id_build_flat', String),
-                Column('building_type_int', String),
+                Column('building_type_int', Integer),
+                Column('latitude', Float),
+                Column('longitude', Float),
                 Column('ceiling_height', Float),
                 Column('flats_count', Integer),
                 Column('floors_total', Integer),
@@ -48,7 +50,7 @@ def clean_building_datasets():
                 Column('is_apartment', String),
                 Column('total_area', Float),
                 Column('price', Numeric),
-                Column('house_age', Integer),
+                Column('build_year', Integer),
                 UniqueConstraint('id_build_flat', name='id_build_flat_in_table_clean_dataset2')
             )
 
@@ -76,8 +78,8 @@ def clean_building_datasets():
 
         def drop_dupl(data: pd.DataFrame) -> pd.DataFrame:
             '''Удаление явных дубликатов. Удаляем строки,
-                в которых все значения совпадают кроме id'''
-            data = data.drop_duplicates(subset=data.drop(['id'], axis=1).columns)
+                в которых все значения совпадают кроме id и id_build_flat'''
+            data = data.drop_duplicates(subset=data.drop(['id', 'id_build_flat'], axis=1).columns)
             return data
         
         def remove_outliers(data: pd.DataFrame) -> pd.DataFrame:
@@ -119,8 +121,6 @@ def clean_building_datasets():
         data = remove_outliers(data)
         data = fill_missing_values(data)
 
-        # Исключим из рассмотрения координаты объектов
-        data = data.drop(['latitude', 'longitude'], axis=1)
         # Переведу ее в категориальные, чтобы не скэйлить потом по ошибке
         data['building_type_int'] = data['building_type_int'].astype(str)
 

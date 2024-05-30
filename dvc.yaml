@@ -18,7 +18,6 @@ stages:
             - remainder
             - verbose_feature_names_out
             - max_depth
-            - n_estimators
         outs:
             - models/fitted_model.pkl
     

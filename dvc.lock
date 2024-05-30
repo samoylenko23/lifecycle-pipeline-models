@@ -5,28 +5,27 @@ stages:
     deps:
     - path: scripts/data.py
       hash: md5
-      md5: caaa54379193348cdcf9fce569f40378
-      size: 1460
+      md5: 9195637b9a22df0c2ea2c4e61d47b469
+      size: 1740
     outs:
     - path: data/datasets.csv
       hash: md5
-      md5: 1c4f06dc087730a9c60dbfcf7356c814
-      size: 10315040
+      md5: 88d1206b889fca5db65bd8298160f860
+      size: 9702833
   fit_model:
     cmd: python scripts/fit.py
     deps:
     - path: data/datasets.csv
       hash: md5
-      md5: 1c4f06dc087730a9c60dbfcf7356c814
-      size: 10315040
+      md5: 88d1206b889fca5db65bd8298160f860
+      size: 9702833
     - path: scripts/fit.py
       hash: md5
-      md5: e33dfb1e315d9ed5a02c156c3a2211d9
-      size: 3489
+      md5: 747e1e900f723e8b57b73ae3d8bd5492
+      size: 3463
     params:
       params.yaml:
         max_depth: 15
-        n_estimators: 150
         ohe_drop: if_binary
         random_state: 42
         remainder: drop
@@ -35,23 +34,23 @@ stages:
     outs:
     - path: models/fitted_model.pkl
       hash: md5
-      md5: 5eb82b415795bc5725f226db98b895cd
-      size: 147044055
+      md5: 195236c276ab7142287007ef874470d7
+      size: 1150528
   evaluate:
     cmd: python scripts/evaluate.py
     deps:
     - path: data/datasets.csv
       hash: md5
-      md5: 1c4f06dc087730a9c60dbfcf7356c814
-      size: 10315040
+      md5: 88d1206b889fca5db65bd8298160f860
+      size: 9702833
     - path: models/fitted_model.pkl
       hash: md5
-      md5: 5eb82b415795bc5725f226db98b895cd
-      size: 147044055
+      md5: 195236c276ab7142287007ef874470d7
+      size: 1150528
     - path: scripts/evaluate.py
       hash: md5
-      md5: c0e856cb656a05cd5d247811560ce5db
-      size: 2701
+      md5: 8e7a60280ce2f3a00b888c541bc6f567
+      size: 3122
     params:
       params.yaml:
         n_jobs: -1
@@ -61,5 +60,5 @@ stages:
     outs:
     - path: cv_results/cv_res.json
       hash: md5
-      md5: 1be1cf00211fa22ac804712876f88390
-      size: 221
+      md5: 6a3155a2c7ecdf9225017f6b862eb2f5
+      size: 193

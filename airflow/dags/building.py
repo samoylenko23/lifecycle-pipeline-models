@@ -50,7 +50,7 @@ def prepare_building_datasets():
                 Column('studio', String),
                 Column('total_area', Float),
                 Column('price', Numeric),
-                Column('house_age', Integer),
+                Column('build_year', Integer),
                 UniqueConstraint('id_build_flat', name='id_build_flat')
             )
 
@@ -96,9 +96,7 @@ def prepare_building_datasets():
         # Создаем новый уникальный id
         data['id_build'] = data['id_build'].astype(str) + '_' + data['id_flat'].astype(str)
         data = data.rename(columns={'id_build': 'id_build_flat'})
-        # Создаем столбец возраста дома 
-        data['house_age'] = 2024 - data['build_year']
-        data = data.drop(['building_id', 'id_flat', 'build_year'], axis=1)
+        data = data.drop(['building_id', 'id_flat'], axis=1)
         
         return data
     

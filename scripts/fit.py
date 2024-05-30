@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from category_encoders import CatBoostEncoder
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 import mlflow
 from dotenv import load_dotenv
@@ -15,9 +15,9 @@ from dotenv import load_dotenv
 TRACKING_SERVER_HOST = "127.0.0.1"
 TRACKING_SERVER_PORT = 5000
 
-EXPERIMENT_NAME = "project228_2"
-RUN_NAME = 'run_baseline_project2'
-REGISTRY_MODEL_NAME = 'model_baseline_project2'
+EXPERIMENT_NAME = "ALEXEY_PROJECT"
+RUN_NAME = 'baseline_model_dvc_project2'
+REGISTRY_MODEL_NAME = 'baseline_model_dvc'
 
 load_dotenv()
 
@@ -51,14 +51,14 @@ def fit_model():
                                random_state=params['random_state'])
 
     target = train['price']
-    train = train.drop(['price'], axis=1)
+    X_train = train.drop(['price'], axis=1)
 
-    cat_features = train.select_dtypes(include='object')
+    cat_features = X_train.select_dtypes(include='object')
     potential_binary_features = cat_features.nunique() == 2
 
     binary_cat_features = cat_features[potential_binary_features[potential_binary_features].index]
     other_cat_features = cat_features[potential_binary_features[~potential_binary_features].index]
-    num_features = train.select_dtypes(['float', 'int'])
+    num_features = X_train.select_dtypes(['float', 'int'])
 
 
     preprocessor = ColumnTransformer(
@@ -71,7 +71,7 @@ def fit_model():
         verbose_feature_names_out=params['verbose_feature_names_out']
     )
 
-    model = RandomForestRegressor(max_depth=params['max_depth'], n_estimators=params['n_estimators'], random_state=params['random_state'])
+    model = DecisionTreeRegressor(max_depth=params['max_depth'], random_state=params['random_state'])
 
     pipeline = Pipeline(
         [
@@ -79,7 +79,7 @@ def fit_model():
             ('model', model)
         ]
     )
-    pipeline.fit(train, target)
+    pipeline.fit(X_train, target)
 
     # Сохраним модель локально
     os.makedirs('models', exist_ok=True)
@@ -88,8 +88,8 @@ def fit_model():
 
     # Залогируем модель в mlflow
     pip_requirements = "../requirements.txt"
-    signature = mlflow.models.infer_signature(train, target)
-    input_example = train[:10]
+    signature = mlflow.models.infer_signature(X_train, target)
+    input_example = X_train[:10]
     metadata = {"target_name": "price"}
 
 

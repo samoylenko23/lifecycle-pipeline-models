@@ -15,8 +15,8 @@ from dotenv import load_dotenv
 TRACKING_SERVER_HOST = "127.0.0.1"
 TRACKING_SERVER_PORT = 5000
 
-EXPERIMENT_NAME = "project228_2"
-RUN_NAME = 'run_baseline_project2'
+EXPERIMENT_NAME = "ALEXEY_PROJECT"
+RUN_NAME = 'baseline_model_dvc_project2'
 
 load_dotenv()
 
@@ -73,36 +73,36 @@ def evaluate_model():
         n_jobs=params['n_jobs'],
         scoring=['neg_root_mean_squared_error', 'r2', 'neg_mean_absolute_error']
     )
+
+    # Переименовываем ключи
+    cv_res_renamed = {f'cv_{key[5:]}': value for key, value in cv_res.items() if key.startswith('test_')}
+    # Добавляем остальные ключи без изменений
+    cv_res_renamed.update({key: value for key, value in cv_res.items() if not key.startswith('test_')})
     
     # Результаты с кросс-валидации
-    for key, value in cv_res.items():
-        cv_res[key] = round(value.mean(), 3)
+    for key, value in cv_res_renamed.items():
+        cv_res_renamed[key] = round(value.mean(), 3)
 
-    cv_res['test_rmse'] = calculate_rmse(model.predict(test), target_test)
-
-    cv_res['test_r2'] = r2_score(model.predict(test), target_test)
-
-    cv_res['test_mae'] = mean_absolute_error(model.predict(test), target_test)
+    cv_res_renamed['test_rmse'] = round(calculate_rmse(model.predict(test), target_test), 3)
+    cv_res_renamed['test_r2'] = round(r2_score(model.predict(test), target_test), 3)
+    cv_res_renamed['test_mae'] = round(mean_absolute_error(model.predict(test), target_test), 3)
 
     os.makedirs('cv_results', exist_ok=True)
     with open('cv_results/cv_res.json', 'w') as json_file:
-        json.dump(cv_res, json_file)
+        json.dump(cv_res_renamed, json_file)
 
-
-
-        
 
     experiment = mlflow.get_experiment_by_name(EXPERIMENT_NAME)
     if experiment is None:
         experiment_id = mlflow.create_experiment(EXPERIMENT_NAME)
     else:
         experiment_id = experiment.experiment_id
-
-
     
 
     with mlflow.start_run(run_name=RUN_NAME, experiment_id=experiment_id) as run:
-        mlflow.log_params(cv_res)
+        mlflow.log_params(cv_res_renamed)
+
+
 if __name__ == '__main__':
     evaluate_model()
 

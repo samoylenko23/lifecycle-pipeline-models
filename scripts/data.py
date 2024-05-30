@@ -34,11 +34,18 @@ def load_data():
 
 def prepare_data():
     data = load_data()
-    data = data.drop(['id', 'id_build_flat'], axis=1)
+
     # логарифмируем и приводим к нужному виду датасет
     data['price'] = data['price'].astype('int')
     data['price'] = np.log1p(data['price'])
+    # удаление наблюдений с аномальными ценами
     data = data.query('price >= 15')
+    # добавлю столбец возраста дома
+    data['house_age'] = 2024 - data['build_year']
+    data = data.drop(['id', 'id_build_flat',
+                      'latitude', 'longitude',
+                      'build_year'], axis=1)
+
 
     os.makedirs('data', exist_ok=True)
     data.to_csv('data/datasets.csv', index=None)
