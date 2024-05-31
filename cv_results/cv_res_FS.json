@@ -1,0 +1,1 @@
+{"cv_neg_root_mean_squared_error": -0.229, "cv_r2": 0.609, "cv_neg_mean_absolute_error": -0.183, "fit_time": 0.57, "score_time": 0.014, "test_rmse": 0.226, "test_r2": 0.616, "test_mae": 0.181, "model": "FS_model"}
