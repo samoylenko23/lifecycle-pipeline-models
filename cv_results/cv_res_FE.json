@@ -1,1 +1,1 @@
-{"cv_neg_root_mean_squared_error": -0.232, "cv_r2": 0.601, "cv_neg_mean_absolute_error": -0.184, "fit_time": 4.95, "score_time": 0.045, "test_rmse": 0.228, "test_r2": 0.612, "test_mae": 0.181, "model": "FE_model"}
+{"cv_neg_root_mean_squared_error": -0.229, "cv_r2": 0.57, "cv_neg_mean_absolute_error": -0.182, "fit_time": 3.9, "score_time": 0.018, "test_rmse": 0.226, "test_r2": 0.605, "test_mae": 0.181, "model": "FE_model"}
