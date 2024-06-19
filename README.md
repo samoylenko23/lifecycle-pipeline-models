@@ -1,6 +1,6 @@
 # Полный Pipeline разработки ML
 
-Добро пожаловать в репозиторий демонстрации полного pipeline разработки ml, начиная с этапа выгрузки данных с БД при помощи AirFlow, обучение и логирование baseline модели в DVC, заканчивая Feature Engineering, Feature Selection, подбор лучших гиперпараметров Optuna и логирование результатов и моделей для прода и отслеживания в MLFlow.
+Добро пожаловать в репозиторий демонстрации полного pipeline разработки ml, начиная с этапа выгрузки и обработки данных с БД при помощи AirFlow (включая отправку сообщений в Telegram о выполнении), обучение и логирование baseline модели в DVC, заканчивая Feature Engineering, Feature Selection, подбор лучших гиперпараметров Optuna и логирование результатов и моделей для прода и отслеживания в MLFlow.
 
 Разберем это на примере улучшения ключевых метрик модели для предсказания стоимости квартир Яндекс Недвижимости.
 
@@ -36,10 +36,8 @@
 10. CatBoost
 
 
-## Клонирование репозитория и установка зависимостей:
+## Установка зависимостей:
 
-* git clone https://github.com/samoylenko23/mle-pipeline-model-development.git
-* cd mle-pipeline-model-development
 * python3 -m venv myenv
 * source myenv/bin/activate
 * pip install -r requirements.txt
